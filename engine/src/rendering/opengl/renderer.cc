@@ -1,21 +1,21 @@
-#include <spear/rendering/opengl/opengl_renderer.hh>
+#include <spear/rendering/opengl/renderer.hh>
 
 #include <iostream>
 
-namespace spear::rendering
+namespace spear::rendering::opengl
 {
 
-OpenGLRenderer::OpenGLRenderer(SDL_Window* window)
+Renderer::Renderer(SDL_Window* window)
     : m_window(window)
 {
     initGlew();
 }
 
-OpenGLRenderer::~OpenGLRenderer()
+Renderer::~Renderer()
 {
 }
 
-void OpenGLRenderer::initGlew()
+void Renderer::initGlew()
 {
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
@@ -25,12 +25,12 @@ void OpenGLRenderer::initGlew()
     }
 }
 
-void OpenGLRenderer::render()
+void Renderer::render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void OpenGLRenderer::setBackgroundColor(float r, float g, float b, float a)
+void Renderer::setBackgroundColor(float r, float g, float b, float a)
 {
     glClearColor(r, g, b, a);
 }

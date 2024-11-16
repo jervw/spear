@@ -1,7 +1,7 @@
 #ifndef SPEAR_RENDERING_SHADER_TYPE_HH
 #define SPEAR_RENDERING_SHADER_TYPE_HH
 
-#include <spear/rendering/shader.hh>
+#include <spear/rendering/base_shader.hh>
 
 #include <unordered_map>
 
@@ -14,7 +14,7 @@ enum class ShaderType
     lightning
 };
 
-using shaderCollection = std::unordered_map<ShaderType, Shader>;
+using shaderCollection = std::unordered_map<ShaderType, BaseShader>;
 
 }
 

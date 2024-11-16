@@ -1,4 +1,4 @@
-#include "spear/rendering/opengl/opengl_shader.hh"
+#include <spear/rendering/opengl/shader.hh>
 #include <spear/material.hh>
 
 #include <GL/glew.h>
@@ -6,11 +6,11 @@
 namespace spear
 {
 
-Material::Material(std::shared_ptr<rendering::OpenGLShader> shader, Texture&& texture)
-    : m_shader(std::unique_ptr<rendering::Shader>(shader.get())),
+Material::Material(std::shared_ptr<rendering::opengl::Shader> shader, rendering::opengl::Texture&& texture)
+    : m_shader(std::unique_ptr<rendering::opengl::Shader>(shader.get())),
       m_texture(std::move(texture)),
-	  m_mvp(glGetUniformLocation(shader->getId(), "mvp")),
-	  m_color(glGetUniformLocation(shader->getId(), "color"))
+      m_mvp(glGetUniformLocation(shader->getId(), "mvp")),
+      m_color(glGetUniformLocation(shader->getId(), "color"))
 {
 }
 

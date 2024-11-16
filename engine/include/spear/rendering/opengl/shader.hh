@@ -1,33 +1,31 @@
 #ifndef SPEAR_RENDERING_OPENGL_SHADER_HH
 #define SPEAR_RENDERING_OPENGL_SHADER_HH
 
-#include <spear/rendering/shader.hh>
+#include <spear/rendering/base_shader.hh>
 
-#include <string>
-
-namespace spear::rendering
+namespace spear::rendering::opengl
 {
 
-class OpenGLShader : public Shader
+class Shader : public BaseShader
 {
 public:
-	/// Constructor.
-    OpenGLShader(const std::string& vertex_path, const std::string& fragment_path);
+    /// Constructor.
+    Shader(const std::string& vertex_path, const std::string& fragment_path);
 
     /// Destructor.
-	~OpenGLShader();
+    ~Shader();
 
     /// Move constructor.
-    OpenGLShader(OpenGLShader&& other);
+    Shader(Shader&& other);
 
     /// Move assignment operator.
-    OpenGLShader& operator=(OpenGLShader&& other);
+    Shader& operator=(Shader&& other);
 
     /// Deleted copy constructor.
-    OpenGLShader(const OpenGLShader&) = delete;
+    Shader(const Shader&) = delete;
 
     /// Deleted copy assignment operator.
-    Shader& operator=(const OpenGLShader&) = delete;
+    Shader& operator=(const Shader&) = delete;
 
 	/// \param vertex Vertex shaderprogram id.
 	/// \param frag Fragment shaderprogram id.

@@ -7,26 +7,26 @@
 namespace spear::rendering
 {
 
-class Shader
+class BaseShader
 {
 public:
 	/// Constructor.
-    Shader() = default;
+    BaseShader() = default;
 
     /// Move constructor.
-    Shader(Shader&& other);
+    BaseShader(BaseShader&& other);
 
     /// Move assignment operator.
-    Shader& operator=(Shader&& other);
+    BaseShader& operator=(BaseShader&& other);
 
     /// Deleted copy constructor.
-    Shader(const Shader&) = delete;
+    BaseShader(const BaseShader&) = delete;
 
     /// Deleted copy assignment operator.
-    Shader& operator=(const Shader&) = delete;
+    BaseShader& operator=(const BaseShader&) = delete;
 
     /// Destructor.
-	virtual ~Shader();
+	virtual ~BaseShader();
 
     uint32_t getId() const
     {
@@ -34,7 +34,6 @@ public:
     }
 
 protected:
-
     void checkCompileErrors(uint32_t shader, std::string type);
 
     virtual uint32_t createShaderProgram(int, int){ return 0; }

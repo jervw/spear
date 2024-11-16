@@ -4,17 +4,17 @@
 #include <GL/glew.h>
 #include <SDL3/SDL.h>
 
-namespace spear::rendering
+namespace spear::rendering::opengl
 {
 
-class OpenGLRenderer
+class Renderer
 {
 public:
     /// Constructor.
-    OpenGLRenderer(SDL_Window* window);
+    Renderer(SDL_Window* window);
 
     // Destructor.
-    ~OpenGLRenderer();
+    ~Renderer();
 
     void render();
     void setViewPort(int width, int height)

@@ -1,14 +1,14 @@
-#include <spear/rendering/opengl/opengl_shader.hh>
+#include <spear/rendering/opengl/shader.hh>
 
 #include <GL/glew.h>
 
 #include <fstream>
 #include <sstream>
 
-namespace spear::rendering
+namespace spear::rendering::opengl
 {
 
-OpenGLShader::OpenGLShader(const std::string& vertex_path, const std::string& fragment_path)
+Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
 {
 	// Retrieve the vertex/fragment source code from file path.
 	std::ifstream v_shader_file;
@@ -65,29 +65,29 @@ OpenGLShader::OpenGLShader(const std::string& vertex_path, const std::string& fr
 	glDeleteShader(fragment);
 }
 
-OpenGLShader::~OpenGLShader()
+Shader::~Shader()
 {
 }
 
-OpenGLShader::OpenGLShader(OpenGLShader&& other)
-	: Shader(std::move(other)),
+Shader::Shader(Shader&& other)
+	: BaseShader(std::move(other)),
 	  m_vertexCode(std::move(other.m_vertexCode)),
 	  m_fragmentCode(std::move(other.m_fragmentCode))
 {
 }
 
-OpenGLShader& OpenGLShader::operator=(OpenGLShader&& other)
+Shader& Shader::operator=(Shader&& other)
 {
 	if (this != &other)
 	{
-		Shader::operator=(std::move(other));
+		BaseShader::operator=(std::move(other));
 		m_vertexCode = std::move(other.m_vertexCode);
 		m_fragmentCode = std::move(other.m_fragmentCode);
 	}
 	return *this;
 }
 
-uint32_t OpenGLShader::createShaderProgram(int vertex, int frag)
+uint32_t Shader::createShaderProgram(int vertex, int frag)
 {
 	auto program = glCreateProgram();
 	glAttachShader(program, vertex);

@@ -1,26 +1,23 @@
 #ifndef SPEAR_TEXTURE_HH
 #define SPEAR_TEXTURE_HH
 
-#include "spear/rendering/opengl/opengl_shader.hh"
-#include <SDL3/SDL_render.h>
-
-#include <spear/rendering/shader.hh>
-
+#include <cstdint>
 #include <string>
-#include <memory>
 
-namespace spear
+namespace spear::rendering::opengl
 {
 
 class Texture
 {
 public:
     /// Constructor.
-    Texture(std::shared_ptr<rendering::OpenGLShader> shader, const std::string& file_path);
-    //Texture(const std::string& file_path, std::shared_ptr<rendering::VulkanShader> shader);
+    Texture();
 
     /// Destructor.
-    ~Texture();
+    ~Texture()
+    {
+        free();
+    }
 
     /// Move constructor.
     Texture(Texture&& other);
@@ -34,14 +31,23 @@ public:
     /// Deleted copy assignment.
     Texture& operator=(const Texture&) = delete;
 
+    // Load texture from file.
+    bool loadFromFile(const std::string& path);
+
+    // Bind texture
+    void bind(uint32_t unit = 0) const;
+
+    // Unbind texture
+    static void unbind(uint32_t unit = 0);
+
+    // Free texture
+    void free();
+
     int getWidth() const { return m_width; }
     int getHeight() const { return m_height; }
-    bool isLoaded() const { return m_texture != nullptr; }
 
 private:
-    std::unique_ptr<rendering::Shader> m_shader;
-    std::string m_file_path;
-    SDL_Texture* m_texture;
+    uint32_t m_id;
     float m_width;
     float m_height;
 };

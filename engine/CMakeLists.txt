@@ -17,18 +17,19 @@ set(SOURCES
     src/window.cc
     src/transform.cc
     src/material.cc
-    src/texture.cc
     src/event_handler.cc
     src/mesh.cc
+    src/camera.cc
 
-    #src/object.cc
-    #src/camera.cc
+    # Shapes
+    src/shapes/cube.cc
 
     # Rendering
     src/rendering/api.cc
-    src/rendering/shader.cc
-    src/rendering/opengl/opengl_renderer.cc
-    src/rendering/opengl/opengl_shader.cc
+    src/rendering/base_shader.cc
+    src/rendering/opengl/renderer.cc
+    src/rendering/opengl/shader.cc
+    src/rendering/opengl/texture.cc
 )
 
 include_directories(${SDL_INCLUDE_DIRS} ${SDL3_IMAGE_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})

@@ -1,8 +1,11 @@
 #include <spear/window.hh>
 #include <spear/event_handler.hh>
+#include <spear/shapes/cube.hh>
+#include <spear/camera.hh>
 
-#include <spear/rendering/opengl/opengl_renderer.hh>
-#include <spear/rendering/opengl/opengl_shader.hh>
+#include <spear/rendering/opengl/shader.hh>
+#include <spear/rendering/opengl/renderer.hh>
+#include <spear/rendering/opengl/texture.hh>
 
 #include <SDL3/SDL_events.h>
 
@@ -15,12 +18,13 @@ int main()
     spear::rendering::API gl_api = spear::rendering::API::OpenGL;
 
     spear::Window window(window_name, window_size, gl_api);
-    //spear::rendering::OpenGLShader basicShader("../shaders/basic_vertex.glsl", "../shaders/basic_fragment.glsl");
-    spear::rendering::OpenGLRenderer renderer(window.getSDLWindow());
+    //spear::rendering::opengl::Shader basicShader("../shaders/basic_vertex.glsl", "../shaders/basic_fragment.glsl");
+    spear::rendering::opengl::Renderer renderer(window.getSDLWindow());
 
     renderer.setViewPort(800, 600);
     renderer.setBackgroundColor(0.2f, 0.3f, 0.4f, 1.0f);
 
+    spear::Camera camera;
     spear::EventHandler eventHandler;
 
     eventHandler.registerCallback(SDL_EVENT_KEY_DOWN, [](const SDL_Event& event) {
@@ -36,19 +40,13 @@ int main()
         exit(0);
     });
 
+    //spear::rendering::opengl::Texture tex;
+    //tex.loadFromFile("../engine/assets/niilo.jpg");
+
     while (true)
     {
         eventHandler.handleEvents();
         renderer.render();
         window.update(gl_api);
     }
-    /*
-    // Contains Camera, input,
-    spear::Player;
-
-    spear::Scene scene;
-    scene.addItems<spear::object>(person, cube);
-
-    */
-
 }

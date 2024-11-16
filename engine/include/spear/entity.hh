@@ -8,6 +8,7 @@ namespace spear
 
 class Entity : public Transform
 {
+public:
 
 };
 
