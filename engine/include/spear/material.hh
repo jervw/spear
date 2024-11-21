@@ -6,6 +6,8 @@
 
 #include <memory>
 
+#include <glm/vec3.hpp>
+
 namespace spear
 {
 
@@ -13,18 +15,26 @@ class Material
 {
 public:
     /// Constructor.
-	Material(std::shared_ptr<rendering::opengl::Shader> shader, rendering::opengl::Texture&& texture);
+    Material(rendering::opengl::Shader& shader, rendering::opengl::Texture& texture, const glm::vec3& color);
 
-	uint32_t getProgram() { return m_shader->getId(); }
-	const uint32_t& getMvp() { return m_mvp; }
-	const uint32_t& getColor() const;
+    int32_t getProgram() { return m_shader.getId(); }
 
-	void use();
+    rendering::opengl::Texture& getTexture()
+    {
+        return m_texture;
+    }
+
+    const int32_t& getColor() const { return m_color; }
+    const int32_t& getMvp() const { return m_mvp; }
+    const int32_t& getSampler() const { return m_sampler; }
+
+    void use();
 private:
-    std::unique_ptr<rendering::opengl::Shader> m_shader;
-	rendering::opengl::Texture m_texture;
-	uint32_t m_mvp;
-	uint32_t m_color;
+    rendering::opengl::Shader& m_shader;
+    rendering::opengl::Texture& m_texture;
+    int32_t m_mvp;
+    int32_t m_color;
+    int32_t m_sampler;
 };
 
 }

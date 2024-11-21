@@ -28,6 +28,24 @@ public:
     /// \ingroup CameraGetters
     glm::mat4 getProjectionMatrix(float aspect_ratio) const;
 
+    /// \ingroup CameraGetters
+    glm::vec3 getPosition() const
+    {
+        return m_position;
+    }
+
+    /// \ingroup CameraGetters
+    float getSpeed() const
+    {
+        return m_movementSpeed;
+    }
+
+    /// \ingroup CameraGetters
+    glm::vec3 getWorldUp() const
+    {
+        return m_worldUp;
+    }
+
     void moveForward(float delta_time)
     {
         m_position += m_front * m_movementSpeed * delta_time;

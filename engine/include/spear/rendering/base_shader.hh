@@ -4,13 +4,15 @@
 #include <string>
 #include <cstdint>
 
+#include <glm/mat4x4.hpp>
+
 namespace spear::rendering
 {
 
 class BaseShader
 {
 public:
-	/// Constructor.
+    /// Constructor.
     BaseShader() = default;
 
     /// Move constructor.
@@ -26,17 +28,24 @@ public:
     BaseShader& operator=(const BaseShader&) = delete;
 
     /// Destructor.
-	virtual ~BaseShader();
+    virtual ~BaseShader();
 
     uint32_t getId() const
     {
         return m_id;
     }
 
-protected:
-    void checkCompileErrors(uint32_t shader, std::string type);
+    bool isProgramLinked() const
+    {
+        return m_id != 0;
+    }
 
-    virtual uint32_t createShaderProgram(int, int){ return 0; }
+    virtual void setMat4(const std::string&, const glm::mat4&) = 0;
+    virtual void use() = 0;
+    virtual void createShaderProgram(uint32_t, uint32_t) = 0;
+
+protected:
+    void checkCompileErrors(uint32_t shader, const std::string& type);
 
     void setId(uint32_t id)
     {
@@ -44,7 +53,7 @@ protected:
     }
 
 private:
-	uint32_t m_id;
+    uint32_t m_id = 0;
 };
 
 }

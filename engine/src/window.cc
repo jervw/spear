@@ -1,7 +1,9 @@
 #include <SDL3/SDL_video.h>
+#include <SDL3/SDL.h>
 #include <spear/window.hh>
 
 #include <SDL3/SDL.h>
+#include <GL/glew.h>
 
 #include <iostream>
 
@@ -49,6 +51,8 @@ void Window::createWindow(const std::string& title, Size size, rendering::API ap
             SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
             SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
             SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
+
             m_window = SDL_CreateWindow(title.c_str(), size.x, size.y, flags);
             if (!m_window)
             {
@@ -72,7 +76,11 @@ void Window::initializeContext(rendering::API api)
             {
                 throw std::runtime_error("Failed to create OpenGL context: " + std::string(SDL_GetError()));
             }
-            SDL_GL_MakeCurrent(m_window, m_glContext);
+            if (!SDL_GL_MakeCurrent(m_window, m_glContext))
+            {
+                std::cerr << "Failed to make OpenGL context current: " << SDL_GetError() << std::endl;
+                return;
+            }
             // vsync
             //SDL_GL_SetSwapInterval(1);
             std::cout << "OpenGL context initialized.\n";
@@ -96,6 +104,11 @@ void Window::update(rendering::API api)
         case rendering::API::DirectX12:
             perror("Unimplemented");
     }
+}
+
+void Window::resize()
+{
+    SDL_GetWindowSize(m_window, &m_size.x, &m_size.y);
 }
 
 }

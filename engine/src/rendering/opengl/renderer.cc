@@ -8,21 +8,26 @@ namespace spear::rendering::opengl
 Renderer::Renderer(SDL_Window* window)
     : m_window(window)
 {
-    initGlew();
 }
 
 Renderer::~Renderer()
 {
 }
 
-void Renderer::initGlew()
+void Renderer::init()
 {
-    glewExperimental = GL_TRUE;
+    m_context = SDL_GL_CreateContext(m_window);
+    if (!m_context)
+    {
+        std::cerr << "Failed to create OpenGL context: " << SDL_GetError() << std::endl;
+    }
     GLenum err = glewInit();
     if (err != GLEW_OK)
     {
         std::cerr << "GLEW initialization error: " << glewGetErrorString(err) << std::endl;
     }
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
 }
 
 void Renderer::render()

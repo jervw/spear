@@ -2,6 +2,7 @@
 #define SPEAR_RENDERING_OPENGL_SHADER_HH
 
 #include <spear/rendering/base_shader.hh>
+#include <spear/rendering/shader_type.hh>
 
 namespace spear::rendering::opengl
 {
@@ -10,7 +11,7 @@ class Shader : public BaseShader
 {
 public:
     /// Constructor.
-    Shader(const std::string& vertex_path, const std::string& fragment_path);
+    Shader(ShaderType shader_type);
 
     /// Destructor.
     ~Shader();
@@ -27,13 +28,21 @@ public:
     /// Deleted copy assignment operator.
     Shader& operator=(const Shader&) = delete;
 
-	/// \param vertex Vertex shaderprogram id.
-	/// \param frag Fragment shaderprogram id.
-	uint32_t createShaderProgram(int vertex, int frag) override;
+    void setMat4(const std::string& name, const glm::mat4& mat) override;
+    void use() override;
+
+    /// \param vertex Vertex shader program id.
+    /// \param frag Fragment shader program id.
+    void createShaderProgram(uint32_t vertex, uint32_t frag) override;
+
+    int getVertexId() const { return m_vertexId; }
+    int getFragmentId() const { return m_fragmentId; }
 
 private:
-	std::string m_vertexCode;
-	std::string m_fragmentCode;
+    std::string m_vertexCode;
+    std::string m_fragmentCode;
+    uint32_t m_vertexId;
+    uint32_t m_fragmentId;
 };
 
 }

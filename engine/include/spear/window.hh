@@ -17,7 +17,7 @@ class Window
 public:
     struct Size
     {
-        uint32_t x, y;
+        int x, y;
     };
 
     /// Constructor.
@@ -32,6 +32,8 @@ public:
     }
 
     void update(rendering::API api);
+    void resize();
+    Size getSize() const { return m_size; }
 
 private:
     void createWindow(const std::string& title, Size size, rendering::API api);

@@ -1,17 +1,23 @@
+#include "spear/rendering/base_shader.hh"
+#include "spear/rendering/opengl/error.hh"
 #include <spear/rendering/opengl/shader.hh>
 
 #include <GL/glew.h>
+#include <glm/glm.hpp>
 
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 namespace spear::rendering::opengl
 {
 
-Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
+Shader::Shader(ShaderType type)
 {
-	// Retrieve the vertex/fragment source code from file path.
-	std::ifstream v_shader_file;
+    rendering::opengl::openglError("before opengl shader contructor");
+    auto data = getShaderFiles(type, API::OpenGL);
+
+    std::ifstream v_shader_file;
 	std::ifstream f_shader_file;
 
 	v_shader_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
@@ -20,8 +26,8 @@ Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
 	try
 	{
 		// Open files.
-		v_shader_file.open(vertex_path);
-		f_shader_file.open(fragment_path);
+		v_shader_file.open(data.vertex_shader);
+		f_shader_file.open(data.fragment_shader);
 		std::stringstream vShaderStream, fShaderStream;
 
 		// Read file's buffer contents into streams.
@@ -41,28 +47,33 @@ Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
 		printf("ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ\n");
 	}
 
+    rendering::opengl::openglError("before compiling shaders");
+
 	// Compile shaders.
 	const char* vShaderCode = m_vertexCode.c_str();
 	const char* fShaderCode = m_fragmentCode.c_str();
-	int vertex, fragment;
 
 	// Vertex shader.
-	vertex = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertex, 1, &vShaderCode, nullptr);
-	glCompileShader(vertex);
-	checkCompileErrors(vertex, "VERTEX");
+    m_vertexId = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(m_vertexId, 1, &vShaderCode, nullptr);
+	glCompileShader(m_vertexId);
+	checkCompileErrors(m_vertexId, "VERTEX");
 
 	// Fragment shader.
-	fragment = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment, 1, &fShaderCode, nullptr);
-	glCompileShader(fragment);
-	checkCompileErrors(fragment, "FRAGMENT");
+	m_fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(m_fragmentId, 1, &fShaderCode, nullptr);
+	glCompileShader(m_fragmentId);
+	checkCompileErrors(m_fragmentId, "FRAGMENT");
 
-	setId(createShaderProgram(vertex, fragment));
+    rendering::opengl::openglError("after compiling shaders");
+
+    createShaderProgram(m_vertexId, m_fragmentId);
 
 	// Delete the shaders.
-	glDeleteShader(vertex);
-	glDeleteShader(fragment);
+	glDeleteShader(m_vertexId);
+	glDeleteShader(m_fragmentId);
+
+    rendering::opengl::openglError("opengl shader contructor");
 }
 
 Shader::~Shader()
@@ -72,7 +83,9 @@ Shader::~Shader()
 Shader::Shader(Shader&& other)
 	: BaseShader(std::move(other)),
 	  m_vertexCode(std::move(other.m_vertexCode)),
-	  m_fragmentCode(std::move(other.m_fragmentCode))
+	  m_fragmentCode(std::move(other.m_fragmentCode)),
+      m_vertexId(std::move(other.m_vertexId)),
+      m_fragmentId(std::move(other.m_fragmentId))
 {
 }
 
@@ -83,18 +96,57 @@ Shader& Shader::operator=(Shader&& other)
 		BaseShader::operator=(std::move(other));
 		m_vertexCode = std::move(other.m_vertexCode);
 		m_fragmentCode = std::move(other.m_fragmentCode);
+        m_vertexId = std::move(other.m_vertexId);
+        m_fragmentId = std::move(other.m_fragmentId);
 	}
 	return *this;
 }
 
-uint32_t Shader::createShaderProgram(int vertex, int frag)
+
+void Shader::setMat4(const std::string& name, const glm::mat4& mat)
 {
-	auto program = glCreateProgram();
-	glAttachShader(program, vertex);
-	glAttachShader(program, frag);
-	glLinkProgram(program);
-	checkCompileErrors(program, "PROGRAM");
-	return program;
+    // Get the uniform location in the shader program
+    GLint location = glGetUniformLocation(BaseShader::getId(), name.c_str());
+
+    if (location == -1)
+    {
+        std::cerr << "Warning: Uniform '" << name << "' not found in shader program." << std::endl;
+        return;
+    }
+
+    // Pass the matrix to the shader
+    glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
+}
+
+void Shader::use()
+{
+    if (BaseShader::getId() == 0)
+    {
+        std::cerr << "Error: Shader program is not initialized." << std::endl;
+        return;
+    }
+    glUseProgram(BaseShader::getId());
+}
+
+void Shader::createShaderProgram(uint32_t vertex, uint32_t frag)
+{
+    GLuint program = glCreateProgram();
+    glAttachShader(program, vertex);
+    glAttachShader(program, frag);
+    glLinkProgram(program);
+
+    // Check for linking errors
+    GLint linkStatus;
+    glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
+    if (linkStatus != GL_TRUE)
+    {
+        GLchar log[1024];
+        glGetProgramInfoLog(program, sizeof(log), nullptr, log);
+        std::cerr << "Shader program linking failed: " << log << std::endl;
+        glDeleteProgram(program);
+    }
+    glUseProgram(program);
+    BaseShader::setId(program);
 }
 
 }

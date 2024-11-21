@@ -23,13 +23,13 @@ public:
     }
 
     void setBackgroundColor(float r, float g, float b, float a);
-
+    void init();
 private:
-    void initGlew();
 
 private:
     SDL_Window* m_window;
     uint32_t m_shader_program;
+    SDL_GLContext m_context;
 };
 
 }

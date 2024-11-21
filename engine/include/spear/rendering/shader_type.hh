@@ -2,8 +2,7 @@
 #define SPEAR_RENDERING_SHADER_TYPE_HH
 
 #include <spear/rendering/base_shader.hh>
-
-#include <unordered_map>
+#include <spear/rendering/api.hh>
 
 namespace spear::rendering
 {
@@ -11,10 +10,17 @@ namespace spear::rendering
 enum class ShaderType
 {
     basic,
-    lightning
+    lighting,
+    sprite3D,
+    quad
 };
 
-using shaderCollection = std::unordered_map<ShaderType, BaseShader>;
+struct ShaderFileData
+{
+    std::string vertex_shader, fragment_shader;
+};
+
+ShaderFileData getShaderFiles(ShaderType type, API api);
 
 }
 

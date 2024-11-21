@@ -13,6 +13,9 @@ find_package(GLEW REQUIRED)
 
 add_compile_options(-Wall -Wextra -pedantic -std=c++20)
 
+set(SPEAR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+add_compile_definitions(SPEAR_ROOT="${SPEAR_ROOT}")
+
 set(SOURCES
     src/window.cc
     src/transform.cc
@@ -23,10 +26,12 @@ set(SOURCES
 
     # Shapes
     src/shapes/cube.cc
+    src/shapes/shape.cc
 
     # Rendering
     src/rendering/api.cc
     src/rendering/base_shader.cc
+    src/rendering/shader_type.cc
     src/rendering/opengl/renderer.cc
     src/rendering/opengl/shader.cc
     src/rendering/opengl/texture.cc

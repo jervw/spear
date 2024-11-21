@@ -5,13 +5,8 @@
 #include <spear/rendering/opengl/texture.hh>
 #include <spear/material.hh>
 #include <spear/camera.hh>
-#include <spear/rendering/opengl/texture.hh>
-#include <spear/rendering/api.hh>
-#include <spear/rendering/base_shader.hh>
 
 #include <glm/vec3.hpp>
-
-#include <memory>
 
 namespace spear
 {
@@ -20,10 +15,10 @@ class Mesh
 {
 public:
     // OpenGL constructor. TODO Construct for all api types.
-    explicit Mesh(std::shared_ptr<rendering::opengl::Shader> shader, rendering::opengl::Texture&& texture);
+    explicit Mesh(rendering::opengl::Shader& shader, rendering::opengl::Texture& texture, const glm::vec3& color);
 
-    virtual void render(Camera& camera);
-private:
+    virtual void render(Camera& camera) = 0;
+protected:
     Material m_material;
     glm::vec3 m_color;
 };

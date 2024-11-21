@@ -14,10 +14,7 @@ public:
     Texture();
 
     /// Destructor.
-    ~Texture()
-    {
-        free();
-    }
+    ~Texture();
 
     /// Move constructor.
     Texture(Texture&& other);
@@ -32,7 +29,7 @@ public:
     Texture& operator=(const Texture&) = delete;
 
     // Load texture from file.
-    bool loadFromFile(const std::string& path);
+    bool loadFile(const std::string& path, bool asset_path = true);
 
     // Bind texture
     void bind(uint32_t unit = 0) const;
@@ -45,6 +42,7 @@ public:
 
     int getWidth() const { return m_width; }
     int getHeight() const { return m_height; }
+    uint32_t getId() const { return m_id; }
 
 private:
     uint32_t m_id;
