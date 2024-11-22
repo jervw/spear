@@ -25,8 +25,9 @@ set(SOURCES
     src/camera.cc
 
     # Shapes
-    src/shapes/cube.cc
+    #src/shapes/cube.cc
     src/shapes/shape.cc
+    src/shapes/quad.cc
 
     # Rendering
     src/rendering/api.cc

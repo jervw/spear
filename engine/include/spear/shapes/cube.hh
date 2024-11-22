@@ -18,12 +18,6 @@ public:
     // Mesh::render implementation.
     void render(Camera& camera) override;
 
-    /// Transform::translate implementation.
-    void translate(const glm::vec3& position) override
-    {
-
-    }
-
 private:
     std::vector<float> createVertexBufferData(const glm::vec3& v);
     std::vector<float> createUvData();

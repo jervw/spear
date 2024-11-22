@@ -3,6 +3,7 @@
 
 #include <string>
 #include <cstdint>
+#include <memory>
 
 #include <glm/mat4x4.hpp>
 
@@ -42,7 +43,7 @@ public:
 
     virtual void setMat4(const std::string&, const glm::mat4&) = 0;
     virtual void use() = 0;
-    virtual void createShaderProgram(uint32_t, uint32_t) = 0;
+    virtual void createShaderProgram() = 0;
 
 protected:
     void checkCompileErrors(uint32_t shader, const std::string& type);

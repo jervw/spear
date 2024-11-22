@@ -3,8 +3,8 @@
 namespace spear
 {
 
-Shape::Shape(rendering::opengl::Shader& shader, rendering::opengl::Texture& texture, const glm::vec3& color)
-    : Mesh(shader, texture, color)
+Shape::Shape(std::shared_ptr<rendering::BaseShader> shader)
+    : Mesh(std::move(shader))
 {
 }
 

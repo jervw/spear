@@ -25,7 +25,7 @@ public:
         setUseTexture();
         initializeUniforms();
         init();
-        m_shader.createShaderProgram(m_shader.getVertexId(), m_shader.getFragmentId());
+        m_shader.createShaderProgram();
     }
 
     // Constructor with color.
@@ -35,82 +35,8 @@ public:
         setUseTexture();
         initializeUniforms();
         init();
-        m_shader.createShaderProgram(m_shader.getVertexId(), m_shader.getFragmentId());
+        m_shader.createShaderProgram();
     }
-
-    /*
-    void init()
-    {
-        GLuint programId = m_shader.getId();
-        if (!glIsProgram(programId))
-        {
-            std::cerr << "Invalid shader program ID: " << programId << std::endl;
-            return;
-        }
-
-        GLint linkStatus = 0;
-        glGetProgramiv(programId, GL_LINK_STATUS, &linkStatus);
-        if (linkStatus == GL_FALSE)
-        {
-            std::cerr << "Shader program linking failed!" << std::endl;
-            char infoLog[512];
-            glGetProgramInfoLog(programId, 512, nullptr, infoLog);
-            std::cerr << "Linker error log:\n" << infoLog << std::endl;
-            return;
-        }
-
-        GLint validateStatus = 0;
-        glValidateProgram(programId);
-        glGetProgramiv(programId, GL_VALIDATE_STATUS, &validateStatus);
-        if (validateStatus == GL_FALSE)
-        {
-            std::cerr << "Shader program validation failed!" << std::endl;
-            char infoLog[512];
-            glGetProgramInfoLog(programId, 512, nullptr, infoLog);
-            std::cerr << "Validation error log:\n" << infoLog << std::endl;
-            return;
-        }
-
-        // Ensure no program pipeline is active
-        GLint pipeline = 0;
-        glGetIntegerv(GL_PROGRAM_PIPELINE_BINDING, &pipeline);
-        if (pipeline != 0)
-        {
-            std::cerr << "Program pipeline active. Cannot use glUseProgram!" << std::endl;
-            return;
-        }
-
-        // Use the shader program
-        glUseProgram(programId);
-        rendering::opengl::openglError("glUseProgram");
-
-        // Check if the texture ID is valid
-        GLuint textureId = m_texture.getId();
-        if (textureId == 0)
-        {
-            std::cerr << "Invalid texture ID: " << textureId << std::endl;
-            return;
-        }
-
-        // Bind the texture after the program is active
-        glActiveTexture(GL_TEXTURE0);
-        rendering::opengl::openglError("glActiveTexture");
-
-        glBindTexture(GL_TEXTURE_2D, textureId);
-        rendering::opengl::openglError("glBindTexture");
-
-        // Ensure the sampler location is valid
-        if (m_sampler == -1)
-        {
-            std::cerr << "Invalid sampler uniform location!" << std::endl;
-            return;
-        }
-
-        // Set the uniform for the texture
-        glUniform1i(m_sampler, 0);
-        rendering::opengl::openglError("glUniform1i");
-    }
-    */
 
     ~Sprite3D()
     {

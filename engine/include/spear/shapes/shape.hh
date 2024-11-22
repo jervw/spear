@@ -10,7 +10,7 @@ namespace spear
 class Shape : public Mesh, public Entity
 {
 public:
-    explicit Shape(rendering::opengl::Shader& shader, rendering::opengl::Texture& texture, const glm::vec3& color);
+    explicit Shape(std::shared_ptr<rendering::BaseShader> shader);
 };
 
 }

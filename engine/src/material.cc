@@ -19,7 +19,7 @@ Material::Material(rendering::opengl::Shader& shader, rendering::opengl::Texture
     // Ensure the shader program is created and linked.
     if (!m_shader.isProgramLinked())
     {
-        m_shader.createShaderProgram(m_shader.getVertexId(), m_shader.getFragmentId());
+        m_shader.createShaderProgram();
     }
 
     // Query uniform locations

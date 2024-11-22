@@ -9,8 +9,6 @@
 #include <spear/rendering/opengl/renderer.hh>
 #include <spear/rendering/opengl/texture.hh>
 
-#include <SDL3/SDL_events.h>
-
 #include <iostream>
 
 int main()
@@ -35,7 +33,7 @@ int main()
         std::cout << "Mouse button pressed at (" << event.button.x << ", " << event.button.y << ")" << std::endl;
     });
 
-    eventHandler.registerCallback(SDL_EVENT_QUIT, [&](const SDL_Event&)
+    eventHandler.registerCallback(SDL_EVENT_QUIT, [](const SDL_Event&)
     {
         std::cout << "Quit event received. Exiting..." << std::endl;
         exit(0);
@@ -76,13 +74,15 @@ int main()
     // Update window size.
     eventHandler.registerCallback(SDL_EVENT_WINDOW_RESIZED, [&window](const SDL_Event&){ window.resize(); });
 
-    spear::Quad quad;
-    quad.initialize();
+    auto quad_shader = spear::rendering::opengl::Shader::create(spear::rendering::ShaderType::quad);
+    spear::Quad quad(quad_shader, 10, glm::vec3(0.5f, 0.f, 0.2f));
+    quad.initialize(glm::vec3(0.0f, 0.0f, 0.0f));
 
     while (true)
     {
+        quad.translate(glm::vec3(1.0f, 0.0f, 0.0f));
         renderer.render();
-        quad.render(camera.getViewMatrix(), camera.getProjectionMatrix(16.f / 9.f));
+        quad.render(camera);
         eventHandler.handleEvents();
         window.update(gl_api);
     }

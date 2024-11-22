@@ -67,7 +67,7 @@ Shader::Shader(ShaderType type)
 
     rendering::opengl::openglError("after compiling shaders");
 
-    createShaderProgram(m_vertexId, m_fragmentId);
+    createShaderProgram();
 
 	// Delete the shaders.
 	glDeleteShader(m_vertexId);
@@ -128,11 +128,11 @@ void Shader::use()
     glUseProgram(BaseShader::getId());
 }
 
-void Shader::createShaderProgram(uint32_t vertex, uint32_t frag)
+void Shader::createShaderProgram()
 {
     GLuint program = glCreateProgram();
-    glAttachShader(program, vertex);
-    glAttachShader(program, frag);
+    glAttachShader(program, m_vertexId);
+    glAttachShader(program, m_fragmentId);
     glLinkProgram(program);
 
     // Check for linking errors

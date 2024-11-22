@@ -4,6 +4,8 @@
 #include <spear/rendering/base_shader.hh>
 #include <spear/rendering/shader_type.hh>
 
+#include <memory>
+
 namespace spear::rendering::opengl
 {
 
@@ -28,12 +30,17 @@ public:
     /// Deleted copy assignment operator.
     Shader& operator=(const Shader&) = delete;
 
+    static std::shared_ptr<Shader> create(ShaderType shader_type)
+    {
+        return std::make_shared<Shader>(Shader(shader_type));
+    }
+
     void setMat4(const std::string& name, const glm::mat4& mat) override;
     void use() override;
 
     /// \param vertex Vertex shader program id.
     /// \param frag Fragment shader program id.
-    void createShaderProgram(uint32_t vertex, uint32_t frag) override;
+    void createShaderProgram() override;
 
     int getVertexId() const { return m_vertexId; }
     int getFragmentId() const { return m_fragmentId; }
