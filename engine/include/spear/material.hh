@@ -4,8 +4,6 @@
 #include <spear/rendering/opengl/shader.hh>
 #include <spear/rendering/opengl/texture.hh>
 
-#include <memory>
-
 #include <glm/vec3.hpp>
 
 namespace spear
@@ -15,7 +13,7 @@ class Material
 {
 public:
     /// Constructor.
-    Material(rendering::opengl::Shader& shader, rendering::opengl::Texture& texture, const glm::vec3& color);
+    Material(rendering::opengl::Shader& shader, rendering::opengl::Texture& texture);
 
     int32_t getProgram() { return m_shader.getId(); }
 

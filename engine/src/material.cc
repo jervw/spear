@@ -9,7 +9,7 @@
 namespace spear
 {
 
-Material::Material(rendering::opengl::Shader& shader, rendering::opengl::Texture& texture, const glm::vec3& color)
+Material::Material(rendering::opengl::Shader& shader, rendering::opengl::Texture& texture)
     : m_shader(shader),
       m_texture(texture),
       m_mvp(-1),

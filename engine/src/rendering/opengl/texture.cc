@@ -1,3 +1,4 @@
+#include "spear/rendering/base_texture.hh"
 #include "spear/rendering/opengl/error.hh"
 #include <spear/rendering/opengl/texture.hh>
 #include <spear/spear_root.hh>
@@ -11,9 +12,7 @@ namespace spear::rendering::opengl
 {
 
 Texture::Texture()
-    : m_id(0),
-      m_width(0),
-      m_height(0)
+    : BaseTexture()
 {
     if (IMG_Init(IMG_INIT_PNG) == 0)
     {
@@ -28,9 +27,6 @@ Texture::~Texture()
 }
 
 Texture::Texture(Texture&& other)
-    : m_id(std::move(other.m_id)),
-      m_width(std::move(other.m_width)),
-      m_height(std::move(other.m_height))
 {
 }
 
@@ -38,9 +34,6 @@ Texture& Texture::operator=(Texture&& other)
 {
     if (this != &other)
     {
-        m_id = std::move(other.m_id);
-        m_width = std::move(other.m_width);
-        m_height = std::move(other.m_height);
     }
     return *this;
 }
@@ -88,8 +81,8 @@ bool Texture::loadFile(const std::string& path, bool asset_path)
     GLenum format = SDLFormatToOpenGLFormat(surface->format);
 
     // Generate OpenGL texture.
-    glGenTextures(1, &m_id);
-    glBindTexture(GL_TEXTURE_2D, m_id);
+    glGenTextures(1, BaseTexture::getIdPtr());
+    glBindTexture(GL_TEXTURE_2D, BaseTexture::getId());
 
     // Set texture parameters.
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

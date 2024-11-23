@@ -32,6 +32,7 @@ set(SOURCES
     # Rendering
     src/rendering/api.cc
     src/rendering/base_shader.cc
+    src/rendering/base_texture.cc
     src/rendering/shader_type.cc
     src/rendering/opengl/renderer.cc
     src/rendering/opengl/shader.cc

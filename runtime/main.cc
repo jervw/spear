@@ -74,6 +74,9 @@ int main()
     // Update window size.
     eventHandler.registerCallback(SDL_EVENT_WINDOW_RESIZED, [&window](const SDL_Event&){ window.resize(); });
 
+    auto texture = spear::rendering::opengl::Texture();
+    texture.loadFile("niilo.jpg");
+
     auto quad_shader = spear::rendering::opengl::Shader::create(spear::rendering::ShaderType::quad);
     spear::Quad quad(quad_shader, 10, glm::vec3(0.5f, 0.f, 0.2f));
     quad.initialize(glm::vec3(0.0f, 0.0f, 0.0f));

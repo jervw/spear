@@ -30,7 +30,7 @@ public:
     void render(Camera& camera) override;
 
 private:
-    size_t m_size;
+    uint64_t m_size;
     glm::vec3 m_color;
     uint32_t m_vao, m_vbo, m_ebo;
     std::vector<float> m_vertices;

@@ -1,10 +1,12 @@
 #ifndef SPEAR_SPRITE_3D_HH
 #define SPEAR_SPRITE_3D_HH
 
+#include <spear/rendering/base_texture.hh>
 #include <spear/rendering/opengl/shader.hh>
 #include <spear/rendering/opengl/shader.hh>
 #include <spear/rendering/opengl/texture.hh>
 #include <spear/rendering/opengl/error.hh>
+#include <spear/mesh.hh>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -15,27 +17,25 @@
 namespace spear
 {
 
-class Sprite3D
+class Sprite3D : public Mesh
 {
 public:
     // Constructor with texture.
-    Sprite3D(rendering::opengl::Shader& shader, rendering::opengl::Texture& texture, glm::vec3 position, glm::vec2 size, float rotation = 0.0f)
-        : m_shader(shader), m_texture(&texture), m_position(position), m_size(size), m_rotation(rotation), m_color(-1), m_sampler(-1), m_useTexture(true)
+    Sprite3D(std::shared_ptr<rendering::BaseShader> shader, std::shared_ptr<rendering::BaseTexture> texture, glm::vec3 position, glm::vec2 size, float rotation = 0.0f)
+        : Mesh(shader), m_position(position), m_size(size), m_rotation(rotation), m_color(-1), m_sampler(-1), m_useTexture(true)
     {
         setUseTexture();
         initializeUniforms();
         init();
-        m_shader.createShaderProgram();
     }
 
     // Constructor with color.
-    Sprite3D(rendering::opengl::Shader& shader, glm::vec3 position, glm::vec2 size, glm::vec3 color, float rotation = 0.f)
-        : m_shader(shader), m_position(position), m_size(size), m_rotation(rotation), m_color(-1), m_sampler(-1), m_useTexture(false)
+    Sprite3D(std::shared_ptr<rendering::BaseShader> shader, glm::vec3 position, glm::vec2 size, glm::vec3 color, float rotation = 0.f)
+        : Mesh(shader), m_position(position), m_size(size), m_rotation(rotation), m_color(-1), m_sampler(-1), m_useTexture(false)
     {
         setUseTexture();
         initializeUniforms();
         init();
-        m_shader.createShaderProgram();
     }
 
     ~Sprite3D()
@@ -47,7 +47,7 @@ public:
 
     void render(const glm::mat4& view, const glm::mat4& projection)
     {
-        m_shader.use();
+        m_shader->use();
 
         // Model matrix
         glm::mat4 model = glm::translate(glm::mat4(1.0f), m_position);
@@ -118,9 +118,9 @@ private:
 
     void initializeUniforms()
     {
-        m_mvp = glGetUniformLocation(m_shader.getId(), "mvp");
-        m_color = glGetUniformLocation(m_shader.getId(), "color");
-        m_sampler = glGetUniformLocation(m_shader.getId(), "textureSampler");
+        m_mvp = glGetUniformLocation(m_shader->getId(), "mvp");
+        m_color = glGetUniformLocation(m_shader->getId(), "color");
+        m_sampler = glGetUniformLocation(m_shader->getId(), "textureSampler");
 
         if (m_mvp == -1) std::cerr << "Error: Uniform 'mvp' not found in shader program." << std::endl;
         if (!m_useTexture && m_color == -1) std::cerr << "Error: Uniform 'color' not found in shader program." << std::endl;
@@ -129,7 +129,7 @@ private:
 
     void setUseTexture()
     {
-        GLint useTextureLocation = glGetUniformLocation(m_shader.getId(), "useTexture");
+        GLint useTextureLocation = glGetUniformLocation(m_shader->getId(), "useTexture");
         if (useTextureLocation == -1)
         {
             std::cerr << "Error: Uniform 'useTexture' not found in shader program." << std::endl;
@@ -148,16 +148,13 @@ private:
     }
 
 private:
-    rendering::opengl::Shader& m_shader;
-    rendering::opengl::Texture* m_texture = nullptr;
-
     // Input data.
     glm::vec3 m_position;
     glm::vec2 m_size;
     float m_rotation; // degrees
 
     // Vertex Array Object, Vertex Buffer Object, Element Buffer Object.
-    GLuint m_vao = 0, m_vbo = 0, m_ebo = 0;
+    uint32_t m_vao = 0, m_vbo = 0, m_ebo = 0;
 
     // Vertices for a quad.
     const float m_vertices[20] = {
@@ -168,7 +165,8 @@ private:
         0.0f, 0.0f, 0.0f,   0.0f, 0.0f
     };
 
-    const unsigned int m_indices[6] = {
+    const uint32_t m_indices[6]
+    {
         0, 1, 2,
         2, 3, 0
     };

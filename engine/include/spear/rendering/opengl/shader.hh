@@ -37,9 +37,6 @@ public:
 
     void setMat4(const std::string& name, const glm::mat4& mat) override;
     void use() override;
-
-    /// \param vertex Vertex shader program id.
-    /// \param frag Fragment shader program id.
     void createShaderProgram() override;
 
     int getVertexId() const { return m_vertexId; }

@@ -1,13 +1,13 @@
 #ifndef SPEAR_TEXTURE_HH
 #define SPEAR_TEXTURE_HH
 
-#include <cstdint>
+#include <spear/rendering/base_texture.hh>
 #include <string>
 
 namespace spear::rendering::opengl
 {
 
-class Texture
+class Texture : public BaseTexture
 {
 public:
     /// Constructor.
@@ -32,22 +32,13 @@ public:
     bool loadFile(const std::string& path, bool asset_path = true);
 
     // Bind texture
-    void bind(uint32_t unit = 0) const;
+    void bind(uint32_t unit = 0) const override;
 
     // Unbind texture
     static void unbind(uint32_t unit = 0);
 
     // Free texture
     void free();
-
-    int getWidth() const { return m_width; }
-    int getHeight() const { return m_height; }
-    uint32_t getId() const { return m_id; }
-
-private:
-    uint32_t m_id;
-    float m_width;
-    float m_height;
 };
 
 }
