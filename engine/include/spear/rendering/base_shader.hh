@@ -41,7 +41,20 @@ public:
         return m_id != 0;
     }
 
+    virtual void setInt(const std::string&, const int&) = 0;
+    virtual void setFloat(const std::string&, const float&) = 0;
+    virtual void setVec2f(const std::string&, const glm::vec2&) = 0;
+    virtual void setVec2i(const std::string&, const glm::vec<2, int>&) = 0;
+    virtual void setVec2ui(const std::string&, const glm::vec<2, uint32_t>&) = 0;
+    virtual void setVec3f(const std::string&, const glm::vec3&) = 0;
+    virtual void setVec3i(const std::string&, const glm::vec<3, int>&) = 0;
+    virtual void setVec3ui(const std::string&, const glm::vec<3, uint32_t>&) = 0;
+    virtual void setVec4f(const std::string&, const glm::vec4&) = 0;
+    virtual void setVec4i(const std::string&, const glm::vec<4, int>&) = 0;
+    virtual void setVec4ui(const std::string&, const glm::vec<4, uint32_t>&) = 0;
     virtual void setMat4(const std::string&, const glm::mat4&) = 0;
+    virtual void setSampler2D(const std::string& name, int textureUnit) = 0;
+
     virtual void use() = 0;
     virtual void createShaderProgram() = 0;
 

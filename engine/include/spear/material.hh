@@ -4,6 +4,9 @@
 #include <spear/rendering/opengl/shader.hh>
 #include <spear/rendering/opengl/texture.hh>
 
+#include <spear/rendering/base_shader.hh>
+#include <spear/rendering/base_texture.hh>
+
 #include <glm/vec3.hpp>
 
 namespace spear
@@ -13,14 +16,16 @@ class Material
 {
 public:
     /// Constructor.
-    Material(rendering::opengl::Shader& shader, rendering::opengl::Texture& texture);
+    //Material(std::shared_ptr<rendering::BaseShader> shader, std::shared_ptr<rendering::BaseTexture> texture);
 
-    int32_t getProgram() { return m_shader.getId(); }
-
-    rendering::opengl::Texture& getTexture()
+    /*
+    static std::shared_ptr<Material> create(std::shared_ptr<rendering::BaseShader> shader, std::shared_ptr<rendering::BaseTexture> texture)
     {
-        return m_texture;
+        return std::make_shared<std::shared_ptr<Material>>(shader, texture);
     }
+    int32_t getShaderId() { return m_shader.getId(); }
+    */
+
 
     const int32_t& getColor() const { return m_color; }
     const int32_t& getMvp() const { return m_mvp; }
@@ -28,8 +33,6 @@ public:
 
     void use();
 private:
-    rendering::opengl::Shader& m_shader;
-    rendering::opengl::Texture& m_texture;
     int32_t m_mvp;
     int32_t m_color;
     int32_t m_sampler;

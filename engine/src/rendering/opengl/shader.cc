@@ -102,20 +102,99 @@ Shader& Shader::operator=(Shader&& other)
 	return *this;
 }
 
-
-void Shader::setMat4(const std::string& name, const glm::mat4& mat)
+int Shader::getLocation(const std::string& name)
 {
-    // Get the uniform location in the shader program
-    GLint location = glGetUniformLocation(BaseShader::getId(), name.c_str());
+    int location = glGetUniformLocation(BaseShader::getId(), name.c_str());
 
     if (location == -1)
     {
         std::cerr << "Warning: Uniform '" << name << "' not found in shader program." << std::endl;
-        return;
     }
+    return location;
+}
 
-    // Pass the matrix to the shader
-    glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
+void Shader::setInt(const std::string& name, const int& value)
+{
+    int location = getLocation(name);
+    glUniform1i(location, value);
+}
+
+void Shader::setFloat(const std::string& name, const float& value)
+{
+    int location = getLocation(name);
+    glUniform1f(location, value);
+}
+
+void Shader::setVec2f(const std::string& name, const glm::vec2& vec)
+{
+    int location = getLocation(name);
+    glUniform2f(location, vec[0], vec[1]);
+}
+
+void Shader::setVec2i(const std::string& name, const glm::vec<2, int>& vec)
+{
+    int location = getLocation(name);
+    glUniform2i(location, vec[0], vec[1]);
+}
+
+void Shader::setVec2ui(const std::string& name, const glm::vec<2, uint32_t>& vec)
+{
+    int location = getLocation(name);
+    glUniform2ui(location, vec[0], vec[1]);
+}
+
+void Shader::setVec3f(const std::string& name, const glm::vec3& vec)
+{
+    int location = getLocation(name);
+    glUniform3f(location, vec[0], vec[1], vec[2]);
+}
+
+void Shader::setVec3i(const std::string& name, const glm::vec<3, int>& vec)
+{
+    int location = getLocation(name);
+    glUniform3i(location, vec[0], vec[1], vec[2]);
+}
+
+void Shader::setVec3ui(const std::string& name, const glm::vec<3, uint32_t>& vec)
+{
+    int location = getLocation(name);
+    glUniform3ui(location, vec[0], vec[1], vec[2]);
+}
+
+void Shader::setVec4f(const std::string& name, const glm::vec4& vec)
+{
+    int location = getLocation(name);
+    glUniform4f(location, vec[0], vec[1], vec[2], vec[3]);
+}
+
+void Shader::setVec4i(const std::string& name, const glm::vec<4, int>& vec)
+{
+    int location = getLocation(name);
+    glUniform4i(location, vec[0], vec[1], vec[2], vec[3]);
+}
+
+void Shader::setVec4ui(const std::string& name, const glm::vec<4, uint32_t>& vec)
+{
+    int location = getLocation(name);
+    glUniform4ui(location, vec[0], vec[1], vec[2], vec[3]);
+}
+
+void Shader::setMat4(const std::string& name, const glm::mat4& mat)
+{
+    int location = getLocation(name);
+    if (location != -1)
+    {
+        glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
+    }
+}
+
+void Shader::setSampler2D(const std::string& name, int textureUnit)
+{
+    int location = getLocation(name);
+    if (location != -1)
+    {
+        glUniform1i(location, textureUnit);
+    }
 }
 
 void Shader::use()

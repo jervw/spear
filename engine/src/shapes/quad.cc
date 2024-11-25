@@ -99,7 +99,7 @@ void Quad::render(Camera& camera)
 {
     Mesh::m_shader->use();
 
-    glm::mat4 mvp = camera.getProjectionMatrix(16.f / 9.f) * camera.getViewMatrix() * glm::mat4(1);
+    glm::mat4 mvp = camera.getProjectionMatrix() * camera.getViewMatrix() * glm::mat4(1);
     //glm::mat4 mvp = camera.getProjectionMatrix(16.f / 9.f) * camera.getViewMatrix() * Transform::getModel();
     Mesh::m_shader->setMat4("mvp", mvp);
 

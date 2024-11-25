@@ -17,12 +17,14 @@ set(SPEAR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
 add_compile_definitions(SPEAR_ROOT="${SPEAR_ROOT}")
 
 set(SOURCES
+    #src/material.cc
+
     src/window.cc
     src/transform.cc
-    src/material.cc
     src/event_handler.cc
     src/mesh.cc
     src/camera.cc
+    src/sprite3d.cc
 
     # Shapes
     #src/shapes/cube.cc

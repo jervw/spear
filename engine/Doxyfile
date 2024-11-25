@@ -2,11 +2,11 @@
 
 # Project settings
 PROJECT_NAME           = "spear"
-PROJECT_NUMBER         = "1.0"
+PROJECT_NUMBER         = "0.0.1"
 PROJECT_BRIEF          = "SPEAR – Simple Powerful Engine for Advanced Rendering"
 
 # TODO
-OUTPUT_DIRECTORY       = ../doxygen
+OUTPUT_DIRECTORY       = ../docs
 CREATE_SUBDIRS         = YES
 OUTPUT_LANGUAGE        = English
 

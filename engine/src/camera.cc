@@ -4,8 +4,7 @@
 namespace spear
 {
 
-Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch,
-        float movement_speed, float mouse_sensitivity, float fov)
+Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch, float movement_speed, float mouse_sensitivity, float fov)
     : m_position(position),
       m_worldUp(up),
       m_yaw(yaw),
@@ -22,9 +21,9 @@ glm::mat4 Camera::getViewMatrix() const
     return glm::lookAt(m_position, m_position + m_front, m_up);
 }
 
-glm::mat4 Camera::getProjectionMatrix(float aspect_ratio) const
+glm::mat4 Camera::getProjectionMatrix() const
 {
-    return glm::perspective(glm::radians(m_fov), aspect_ratio, 0.1f, 100.0f);
+    return glm::perspective(glm::radians(m_fov), ASPECT_RATIO, 0.1f, 100.0f);
 }
 
 void Camera::rotate(float xoffset, float yoffset, bool constrain_pitch)

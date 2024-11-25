@@ -10,6 +10,8 @@ namespace spear
 class Camera
 {
 public:
+    const float ASPECT_RATIO = 16.f / 9.f;
+
     /// Constructor.
     Camera( glm::vec3 position = glm::vec3(0.f, 0.f, 0.f),
             glm::vec3 up = glm::vec3(0.f, 1.f, 0.f),
@@ -26,7 +28,7 @@ public:
     glm::mat4 getViewMatrix() const;
 
     /// \ingroup CameraGetters
-    glm::mat4 getProjectionMatrix(float aspect_ratio) const;
+    glm::mat4 getProjectionMatrix() const;
 
     /// \ingroup CameraGetters
     glm::vec3 getPosition() const
