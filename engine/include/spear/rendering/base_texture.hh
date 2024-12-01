@@ -9,9 +9,21 @@ namespace spear::rendering
 class BaseTexture
 {
 public:
-    BaseTexture();
+    BaseTexture(uint32_t id);
 
-    virtual ~BaseTexture(){};
+    /// Move constructor.
+    BaseTexture(BaseTexture&& other);
+
+    /// Move assignment operator.
+    BaseTexture& operator=(BaseTexture&& other);
+
+    /// Copy constructor.
+    BaseTexture(const BaseTexture& other);
+
+    /// Copy assignment operator.
+    BaseTexture& operator=(const BaseTexture& other);
+
+    virtual ~BaseTexture(){}
     virtual void bind(uint32_t unit = 0) const = 0;
 
     int getWidth() const { return m_width; }

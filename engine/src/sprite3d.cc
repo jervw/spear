@@ -4,28 +4,28 @@
 namespace spear
 {
 
-Sprite3D::Sprite3D(std::shared_ptr<rendering::BaseShader> shader, std::shared_ptr<rendering::BaseTexture> texture, glm::vec3 position, glm::vec2 size)
-    : Mesh(shader, texture), m_position(position), m_color(-1), m_size(size), m_sampler(GL_TEXTURE_2D), m_useTexture(true)
+Sprite3D::Sprite3D(std::shared_ptr<rendering::BaseShader> shader, std::shared_ptr<rendering::BaseTexture> texture, glm::vec3 position)
+    : Mesh(shader, texture), Transform(),
+      m_position(position), m_color(-1), m_sampler(GL_TEXTURE_2D), m_useTexture(true)
 {
     setUseTexture();
     init();
 }
 
-Sprite3D::Sprite3D(std::shared_ptr<rendering::BaseShader> shader, glm::vec3 position, glm::vec2 size, glm::vec4 color)
-    : Mesh(shader), m_position(position), m_color(color), m_size(size), m_sampler(-1), m_useTexture(false)
+Sprite3D::Sprite3D(std::shared_ptr<rendering::BaseShader> shader, glm::vec3 position, glm::vec4 color)
+    : Mesh(shader), Transform(),
+      m_position(position), m_color(color), m_sampler(-1), m_useTexture(false)
 {
     setUseTexture();
     init();
 }
 
-// Destructor.
 Sprite3D::~Sprite3D()
 {
     if (m_vao) glDeleteVertexArrays(1, &m_vao);
     if (m_vbo) glDeleteBuffers(1, &m_vbo);
     if (m_ebo) glDeleteBuffers(1, &m_ebo);
 }
-
 
 void Sprite3D::render(Camera& camera)
 {
@@ -44,7 +44,10 @@ void Sprite3D::render(Camera& camera)
     if (m_useTexture)
     {
         glActiveTexture(GL_TEXTURE0);
-        m_shader->setSampler2D("textureSampler", m_sampler);
+        m_shader->setSampler2D("textureSampler", 0);
+
+        //assert(m_shader->get)
+
         m_texture->bind();
     }
     else

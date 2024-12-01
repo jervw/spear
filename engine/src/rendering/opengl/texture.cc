@@ -1,4 +1,3 @@
-#include "spear/rendering/base_texture.hh"
 #include "spear/rendering/opengl/error.hh"
 #include <spear/rendering/opengl/texture.hh>
 #include <spear/spear_root.hh>
@@ -11,8 +10,8 @@
 namespace spear::rendering::opengl
 {
 
-Texture::Texture()
-    : BaseTexture()
+Texture::Texture(uint32_t id)
+    : BaseTexture(id)
 {
     if (IMG_Init(IMG_INIT_PNG) == 0)
     {
@@ -27,6 +26,7 @@ Texture::~Texture()
 }
 
 Texture::Texture(Texture&& other)
+    : BaseTexture(std::move(other))
 {
 }
 
@@ -34,6 +34,7 @@ Texture& Texture::operator=(Texture&& other)
 {
     if (this != &other)
     {
+        BaseTexture::operator=(std::move(other));
     }
     return *this;
 }

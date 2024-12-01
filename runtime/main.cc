@@ -1,3 +1,4 @@
+#include <glm/ext/vector_float3.hpp>
 #include <spear/window.hh>
 #include <spear/event_handler.hh>
 #include <spear/shapes/cube.hh>
@@ -78,14 +79,23 @@ int main()
     spear::Quad quad(quad_shader, 10, glm::vec3(0.5f, 0.f, 0.2f));
     quad.initialize(glm::vec3(0.0f, 0.0f, 0.0f));
 
-    auto texture = spear::rendering::opengl::Texture();
+    auto sprite_shader = spear::rendering::opengl::Shader::create(spear::rendering::ShaderType::sprite3D);
+    auto shader_id = sprite_shader->getId();
+
+    auto texture = spear::rendering::opengl::Texture(shader_id);
     texture.loadFile("niilo.jpg");
+    auto shared_texture = std::make_shared<spear::rendering::opengl::Texture>(std::move(texture));
+
+    //spear::Sprite3D sprite(sprite_shader, shared_texture, glm::vec3(0.f, 0.f, 0.f));
+    spear::Sprite3D sprite2(sprite_shader, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
     while (true)
     {
-        quad.translate(glm::vec3(1.0f, 0.0f, 0.0f));
+        //quad.translate(glm::vec3(1.0f, 0.0f, 0.0f));
+        //sprite.render(camera);
+        sprite2.render(camera);
         renderer.render();
-        quad.render(camera);
+        //quad.render(camera);
         eventHandler.handleEvents();
         window.update(gl_api);
     }

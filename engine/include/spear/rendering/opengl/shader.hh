@@ -35,6 +35,8 @@ public:
         return std::make_shared<Shader>(Shader(shader_type));
     }
 
+    // \defgroup openglShaderUniformSetters
+
     void setInt(const std::string&, const int&) override;
     void setFloat(const std::string&, const float&) override;
     void setVec2f(const std::string&, const glm::vec2&) override;

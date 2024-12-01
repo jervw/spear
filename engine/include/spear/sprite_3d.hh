@@ -17,14 +17,15 @@ class Sprite3D : public Mesh, public Transform
 {
 public:
     // Constructor with texture.
-    Sprite3D(std::shared_ptr<rendering::BaseShader> shader, std::shared_ptr<rendering::BaseTexture> texture, glm::vec3 position, glm::vec2 size);
+    Sprite3D(std::shared_ptr<rendering::BaseShader> shader, std::shared_ptr<rendering::BaseTexture> texture, glm::vec3 position);
 
     // Constructor with color.
-    Sprite3D(std::shared_ptr<rendering::BaseShader> shader, glm::vec3 position, glm::vec2 size, glm::vec4 color);
+    Sprite3D(std::shared_ptr<rendering::BaseShader> shader, glm::vec3 position, glm::vec4 color);
 
     // Destructor.
     ~Sprite3D();
 
+    /// Mesh::render implementation.
     void render(Camera& camera) override;
 
     void setPosition(const glm::vec3& newPosition)
@@ -42,7 +43,7 @@ public:
         m_rotation = newRotation;
     }
 
-private:
+protected:
     void init();
     void setUseTexture();
 private:

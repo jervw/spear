@@ -195,6 +195,10 @@ void Shader::setSampler2D(const std::string& name, int textureUnit)
     {
         glUniform1i(location, textureUnit);
     }
+    else
+    {
+        std::cerr << "Set sampler failed!" << std::endl;
+    }
 }
 
 void Shader::use()
