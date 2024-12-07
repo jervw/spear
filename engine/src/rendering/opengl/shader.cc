@@ -213,22 +213,21 @@ void Shader::use()
 
 void Shader::createShaderProgram()
 {
-    GLuint program = glCreateProgram();
+    int program = glCreateProgram();
     glAttachShader(program, m_vertexId);
     glAttachShader(program, m_fragmentId);
     glLinkProgram(program);
 
     // Check for linking errors
-    GLint linkStatus;
+    int linkStatus;
     glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
     if (linkStatus != GL_TRUE)
     {
-        GLchar log[1024];
+        char log[1024];
         glGetProgramInfoLog(program, sizeof(log), nullptr, log);
         std::cerr << "Shader program linking failed: " << log << std::endl;
         glDeleteProgram(program);
     }
-    glUseProgram(program);
     BaseShader::setId(program);
 }
 

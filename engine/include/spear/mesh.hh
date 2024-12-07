@@ -15,7 +15,6 @@ class Mesh
 public:
     explicit Mesh(std::shared_ptr<rendering::BaseShader> shader);
     explicit Mesh(std::shared_ptr<rendering::BaseShader> shader, std::shared_ptr<rendering::BaseTexture> texture);
-    //explicit Mesh(std::shared_ptr<Material>);
 
     virtual void render(Camera& camera) = 0;
 protected:
