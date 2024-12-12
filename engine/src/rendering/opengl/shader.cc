@@ -190,6 +190,16 @@ void Shader::setMat4(const std::string& name, const glm::mat4& mat)
 
 void Shader::setSampler2D(const std::string& name, int textureUnit)
 {
+    GLint maxTextureUnits;
+    glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxTextureUnits);
+
+    if (textureUnit < 0 || textureUnit >= maxTextureUnits)
+    {
+        std::cerr << "Set sampler failed: Invalid texture unit " << textureUnit << "!" << std::endl;
+        return;
+    }
+
+
     int location = getLocation(name);
     if (location != -1)
     {

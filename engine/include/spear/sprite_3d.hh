@@ -17,12 +17,13 @@ class Sprite3D : public Mesh, public Transform
 {
 public:
     // Constructor with texture.
-    Sprite3D(std::shared_ptr<rendering::BaseTexture> texture, glm::vec3 position);
+    Sprite3D(glm::vec3 position);
 
     // Destructor.
     ~Sprite3D();
 
     void initialize();
+    void loadImage(const std::string& path);
 
     /// Mesh::render implementation.
     void render(Camera& camera) override;
@@ -48,12 +49,22 @@ private:
     uint32_t m_vao = 0, m_vbo = 0, m_ebo = 0;
 
     // Vertices for a quad.
+    /*
     const float m_vertices[20] = {
         // Positions        // Texture Coords
         0.0f, 1.0f, 0.0f,   0.0f, 1.0f,
         1.0f, 1.0f, 0.0f,   1.0f, 1.0f,
         1.0f, 0.0f, 0.0f,   1.0f, 0.0f,
         0.0f, 0.0f, 0.0f,   0.0f, 0.0f
+    };
+    */
+
+    const float m_vertices[20] = {
+        // Positions        // Texture Coords
+       -0.5f,  0.5f, 0.0f,  0.0f, 1.0f, // Top-left
+        0.5f,  0.5f, 0.0f,  1.0f, 1.0f, // Top-right
+        0.5f, -0.5f, 0.0f,  1.0f, 0.0f, // Bottom-right
+       -0.5f, -0.5f, 0.0f,  0.0f, 0.0f  // Bottom-left
     };
 
     const uint32_t m_indices[6]
