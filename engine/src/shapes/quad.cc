@@ -1,6 +1,6 @@
-#include <spear/shapes/quad.hh>
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <spear/shapes/quad.hh>
 
 #include <vector>
 
@@ -35,25 +35,64 @@ void Quad::translate(const glm::vec3& position)
 void Quad::initialize(const glm::vec3& position)
 {
     m_vertices =
-    {
-        position.x-0.5f, position.y-0.5f, position.z-0.5f,  m_color.x, m_color.y, m_color.z,
-        position.x+0.5f, position.y-0.5f, position.z-0.5f,  m_color.x, m_color.y, m_color.z,
-        position.x+0.5f, position.y+0.5f, position.z-0.5f,  m_color.x, m_color.y, m_color.z,
-        position.x-0.5f, position.y+0.5f, position.z-0.5f,  m_color.x, m_color.y, m_color.z,
-        position.x-0.5f, position.y-0.5f, position.z+0.5f,  m_color.x, m_color.y, m_color.z,
-        position.x+0.5f, position.y-0.5f, position.z+0.5f,  m_color.x, m_color.y, m_color.z,
-        position.x+0.5f, position.y+0.5f, position.z+0.5f,  m_color.x, m_color.y, m_color.z,
-        position.x-0.5f, position.y+0.5f, position.z+0.5f,  m_color.x, m_color.y, m_color.z,
-    };
+            {
+                    position.x - 0.5f,
+                    position.y - 0.5f,
+                    position.z - 0.5f,
+                    m_color.x,
+                    m_color.y,
+                    m_color.z,
+                    position.x + 0.5f,
+                    position.y - 0.5f,
+                    position.z - 0.5f,
+                    m_color.x,
+                    m_color.y,
+                    m_color.z,
+                    position.x + 0.5f,
+                    position.y + 0.5f,
+                    position.z - 0.5f,
+                    m_color.x,
+                    m_color.y,
+                    m_color.z,
+                    position.x - 0.5f,
+                    position.y + 0.5f,
+                    position.z - 0.5f,
+                    m_color.x,
+                    m_color.y,
+                    m_color.z,
+                    position.x - 0.5f,
+                    position.y - 0.5f,
+                    position.z + 0.5f,
+                    m_color.x,
+                    m_color.y,
+                    m_color.z,
+                    position.x + 0.5f,
+                    position.y - 0.5f,
+                    position.z + 0.5f,
+                    m_color.x,
+                    m_color.y,
+                    m_color.z,
+                    position.x + 0.5f,
+                    position.y + 0.5f,
+                    position.z + 0.5f,
+                    m_color.x,
+                    m_color.y,
+                    m_color.z,
+                    position.x - 0.5f,
+                    position.y + 0.5f,
+                    position.z + 0.5f,
+                    m_color.x,
+                    m_color.y,
+                    m_color.z,
+            };
 
-    uint32_t indices[]
-    {
-        0, 1, 2, 2, 3, 0,   // Front face
-        4, 5, 6, 6, 7, 4,   // Back face
-        0, 1, 5, 5, 4, 0,   // Bottom face
-        3, 2, 6, 6, 7, 3,   // Top face
-        0, 3, 7, 7, 4, 0,   // Left face
-        1, 2, 6, 6, 5, 1    // Right face
+    uint32_t indices[]{
+            0, 1, 2, 2, 3, 0, // Front face
+            4, 5, 6, 6, 7, 4, // Back face
+            0, 1, 5, 5, 4, 0, // Bottom face
+            3, 2, 6, 6, 7, 3, // Top face
+            0, 3, 7, 7, 4, 0, // Left face
+            1, 2, 6, 6, 5, 1  // Right face
     };
 
     // Create VAO, VBO, and EBO
@@ -93,4 +132,4 @@ void Quad::render(Camera& camera)
     glBindVertexArray(0);
 }
 
-}
+} // namespace spear
