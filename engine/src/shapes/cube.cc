@@ -190,6 +190,7 @@ void Cube::render(Camera& camera)
 
 std::vector<float> Cube::createVertexBufferData(const glm::vec3& v)
 {
+    // clang-format off
     return std::vector<float>
     {
         -v.x, -v.y, -v.z,
@@ -234,10 +235,12 @@ std::vector<float> Cube::createVertexBufferData(const glm::vec3& v)
         -v.x,  v.y,  v.z,
         -v.x,  v.y, -v.z
     };
+    // clang-format on
 }
 
 std::vector<float> Cube::createUvData()
 {
+    // clang-format off
     return std::vector<float>
     {
         0.0f, 0.0f,
@@ -282,6 +285,7 @@ std::vector<float> Cube::createUvData()
         0.0f, 0.0f,
         0.0f, 1.0f
     };
+    // clang-format on
 }
 
 }
