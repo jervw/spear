@@ -1,6 +1,6 @@
 #include "spear/transform.hh"
-#include <spear/shapes/cube.hh>
 #include <spear/rendering/opengl/error.hh>
+#include <spear/shapes/cube.hh>
 
 #include <SDL3/SDL.h>
 
@@ -24,7 +24,7 @@ void Cube::create(std::vector<float>&& vertex_buffer_data, std::vector<float>&& 
     assert(m_vertexDataSize == vertex_buffer_data.size());
 
     m_uvDataSize = uv_data.size();
-    assert (uv_data.size() == 72);
+    assert(uv_data.size() == 72);
     assert(m_uvDataSize == uv_data.size());
 
     glGenVertexArrays(1, &m_vao);
@@ -288,4 +288,4 @@ std::vector<float> Cube::createUvData()
     // clang-format on
 }
 
-}
+} // namespace spear

@@ -1,6 +1,6 @@
-#include <spear/shapes/quad.hh>
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <spear/shapes/quad.hh>
 
 #include <vector>
 
@@ -95,4 +95,4 @@ void Quad::render(Camera& camera)
     glBindVertexArray(0);
 }
 
-}
+} // namespace spear

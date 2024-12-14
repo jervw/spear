@@ -2,13 +2,12 @@
 #define SPEAR_SPRITE_3D_HH
 
 #include <spear/rendering/base_texture.hh>
-#include <spear/rendering/opengl/shader.hh>
+#include <spear/rendering/opengl/error.hh>
 #include <spear/rendering/opengl/shader.hh>
 #include <spear/rendering/opengl/texture.hh>
-#include <spear/rendering/opengl/error.hh>
 
-#include <spear/transform.hh>
 #include <spear/mesh.hh>
+#include <spear/transform.hh>
 
 namespace spear
 {
@@ -77,6 +76,6 @@ private:
     int32_t m_sampler;
 };
 
-}
+} // namespace spear
 
 #endif
